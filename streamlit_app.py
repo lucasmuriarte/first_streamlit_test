@@ -9,5 +9,6 @@ streamlit.text('🥑🍞 Hard-Boiled Free-Range Egg')
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 df = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 df.set_index('Fruit', inplace=True)
-streamlit.multiselect('Pick some fruits', list(df.index), ['Avocado','Strawberries'])
-streamlit.dataframe(df)
+selected_fruits = treamlit.multiselect('Pick some fruits', list(df.index), ['Avocado','Strawberries'])
+
+streamlit.dataframe(df.loc[selected_fruits])
