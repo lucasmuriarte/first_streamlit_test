@@ -13,8 +13,13 @@ df.set_index('Fruit', inplace=True)
 fruits = streamlit.multiselect('Pick some fruits', list(df.index), ['Avocado','Strawberries'])
 fruits_show = df.loc[fruits]
 streamlit.dataframe(fruits_show)
-api_response = requests.get('https://fruityvice.com/api/fruit/watermelon')
+
+
 streamlit.header("Fruityvice Fruit Advice!")
+choice = streamlit.text_input('What fruit would you like information about?', 'Kiwi')
+streamlit.write('The user entered', choice)
+
+api_response = requests.get(f'https://fruityvice.com/api/fruit/{choice}')
 json_text = api_response.json()
 streamlit.text(json_text)
 streamlit.dataframe(pd.json_normalize(json_text))
