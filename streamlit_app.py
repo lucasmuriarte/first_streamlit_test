@@ -15,4 +15,4 @@ fruits_show = df.loc[fruits]
 streamlit.dataframe(fruits_show)
 api_response = requests.get('https://fruityvice.com/api/fruit/watermelon')
 streamlit.header("Fruityvice Fruit Advice!")
-stramlit.text(api_response.json())
+streamlit.text(api_response.json())
