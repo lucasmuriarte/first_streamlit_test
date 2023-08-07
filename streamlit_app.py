@@ -1,4 +1,4 @@
-import request
+import requests
 import streamlit
 import pandas as pd
 
@@ -13,6 +13,6 @@ df.set_index('Fruit', inplace=True)
 fruits = streamlit.multiselect('Pick some fruits', list(df.index), ['Avocado','Strawberries'])
 fruits_show = df.loc[fruits]
 streamlit.dataframe(fruits_show)
-response = request.get('https://www.fruityvice.com/api/fruit/watermelon')
+response = requests.get('https://www.fruityvice.com/api/fruit/watermelon')
 streamlit.header("Fruityvice Fruit Advice!")
 stramlit.text(response.json())
