@@ -18,10 +18,10 @@ streamlit.dataframe(fruits_show)
 
 
 streamlit.header("Fruityvice Fruit Advice!")
-streamlit.write('The user entered', choice)
 try:
     choice = streamlit.text_input('What fruit would you like information about?', 'Kiwi')
     if choice:
+        streamlit.write('The user entered', choice)
         api_response = requests.get(f'https://fruityvice.com/api/fruit/{choice}')
         json_text = api_response.json()
         streamlit.dataframe(pd.json_normalize(json_text))
