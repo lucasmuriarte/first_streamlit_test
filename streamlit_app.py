@@ -42,8 +42,7 @@ def get_info_from_db():
     my_data_row = my_cur.fetchall()
     return data_row
 
-if strealit.button('Get fruit from list'):
-    
+if streamlit.button('Get fruit from list'):
     streamlit.header("The fruit load list contains:")
     my_data_row = get_info_from_db()
     streamlit.dataframe(my_data_row)
