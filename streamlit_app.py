@@ -35,6 +35,7 @@ except URLLError as error:
     streamlit.error()
 
 streamlit.stop()
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 
 def get_info_from_db():
     my_cur = my_cnx.cursor()
@@ -43,12 +44,19 @@ def get_info_from_db():
     return data_row
 
 if strealit.button('Get fruit from list'):
-    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    
     streamlit.header("The fruit load list contains:")
     my_data_row = get_info_from_db()
     streamlit.dataframe(my_data_row)
 
+def insert_fruit_into_snowflake(fruit):
+    my_cur = my_cnx.cursor()
+    my_cur.execute("INSERT INTO FROM FRUIT_LOAD_LIST values(fruit)")
+    return f'Thanks for adding {fruit}'
+
 streamlit.header("What fruit would you like to add?")
 added_fruit = streamlit.text_input('What fruit would you like information about?', 'Jackfruit')
-streamlit.write('Thanks for adding', added_fruit)
+if strealit.button('Add a fruit to the list'):
+    insert_fruit_into_snowflake(added_fruit)
+    streamlit.write('Thanks for adding', added_fruit)
 
