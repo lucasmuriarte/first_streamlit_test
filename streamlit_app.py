@@ -37,9 +37,9 @@ except URLLError as error:
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 
 def get_info_from_db():
-    my_cur = my_cnx.cursor()
-    my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
-    my_data_row = my_cur.fetchall()
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
+        data_row = my_cur.fetchall()
     return data_row
 
 if streamlit.button('Get fruit from list'):
@@ -48,8 +48,9 @@ if streamlit.button('Get fruit from list'):
     streamlit.dataframe(my_data_row)
 
 def insert_fruit_into_snowflake(fruit):
-    my_cur = my_cnx.cursor()
-    my_cur.execute("INSERT INTO FRUIT_LOAD_LIST values(fruit)")
+    print(type(fruit))
+    with my_cnx.cursor() as my_cur:
+         my_cur.execute("INSERT INTO FRUIT_LOAD_LIST values(fruit)")
     return f'Thanks for adding {fruit}'
 
 streamlit.header("What fruit would you like to add?")
