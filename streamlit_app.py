@@ -16,15 +16,19 @@ fruits = streamlit.multiselect('Pick some fruits', list(df.index), ['Avocado','S
 fruits_show = df.loc[fruits]
 streamlit.dataframe(fruits_show)
 
+def get_info_from_url(fruit: str): 
+    api_response = requests.get(f'https://fruityvice.com/api/fruit/{choice}')
+    json_text = api_response.json()
+    df = pd.json_normalize(json_text)
+    return df
 
 streamlit.header("Fruityvice Fruit Advice!")
 try:
     choice = streamlit.text_input('What fruit would you like information about?', 'Kiwi')
     if choice:
         streamlit.write('The user entered', choice)
-        api_response = requests.get(f'https://fruityvice.com/api/fruit/{choice}')
-        json_text = api_response.json()
-        streamlit.dataframe(pd.json_normalize(json_text))
+        df = get_info_from_url(choice)
+        streamlit.dataframe(df)
     else:
         streamlit.error('Please enter a fruit to get information')
 except URLLError as error:
